@@ -14,3 +14,9 @@ HTML("""
 """ % data_url)
 
 ####################
+'''
+Connect gdrive to clab
+'''
+
+from google.colab import drive
+drive.mount('/content/drive')
