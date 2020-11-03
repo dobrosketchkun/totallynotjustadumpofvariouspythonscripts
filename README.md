@@ -1,2 +1,1 @@
-# totallynotjustadumpofvariouspythonscripts
-totally not just a dump of various python scripts
+If you can use it, do so.
