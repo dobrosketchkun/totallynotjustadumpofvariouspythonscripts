@@ -20,3 +20,25 @@ Connect gdrive to clab
 
 from google.colab import drive
 drive.mount('/content/drive')
+
+#####################
+'''
+Download bunch of files in colab /content/ temporary drive
+'''
+
+
+#make a directory (mb with subdirectory)
+for p in ["/content/datasets/", '/content/datasets/custom']:
+  try:
+    os.mkdir(p)
+  except:
+    pass
+
+%cd /content/datasets/custom/ 
+
+import os
+ids = [] #list of IDs of files 
+
+for id in ids:
+  print('Downloading', id)
+  os.system('gdown --id ' + id)
