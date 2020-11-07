@@ -23,3 +23,19 @@ headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) '
         'Connection': 'keep-alive'}
 
 #########################
+'''
+Rudimentary threading
+'''
+
+import concurrent.futures as futures
+
+data = []
+def main():
+    pass
+
+with futures.ThreadPoolExecutor(max_workers=1000) as executor:
+    results = executor.map(main, data)
+
+    
+ #########################
+
