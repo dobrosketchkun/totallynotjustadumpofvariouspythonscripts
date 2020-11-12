@@ -61,3 +61,30 @@ def timeit(fn):
     return get_time
 
 #########################
+'''
+Print a text in a hackery way
+'''
+
+def printed(text, time =0.02):
+	'''
+	Make a cool typing effect
+	'''
+	for char in text:
+		sleep(time)
+		sys.stdout.write(char)
+		sys.stdout.flush()
+
+#########################
+'''
+Clear the screen in terminal/cmd
+'''
+
+def clear_screen():
+    """
+    Clears the terminal screen.
+    """
+
+    command = "cls" if platform.system().lower()=="windows" else "clear"
+    os.system(command)
+
+#########################
