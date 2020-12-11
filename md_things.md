@@ -16,3 +16,7 @@ Thaks to [a-rodin](https://gist.github.com/a-rodin/fef3f543412d6e1ec5b6cf55bf197
 
 ---
 
+Press <kbd>W</kbd> to go up, and <kbd>A</kbd> to go down.
+If you can find the <kbd>ESC</kbd>, pressing that will fire missiles
+
+GitHub contribution graph colors: `#C6E48B` `#7AC96F` `#249A3C` `#196127`
