@@ -34,7 +34,6 @@ for p in ["/content/datasets/", '/content/datasets/custom']:
   except:
     pass
 
-%cd /content/datasets/custom/ 
 
 import os
 ids = [] #list of IDs of files 
@@ -42,3 +41,9 @@ ids = [] #list of IDs of files
 for id in ids:
   print('Downloading', id)
   os.system('gdown --id ' + id)
+
+#####################
+
+from IPython.display import Image, display
+display(Image('a.png', width=300))
+display(Image('b.png', height=300))
