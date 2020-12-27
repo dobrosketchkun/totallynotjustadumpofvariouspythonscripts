@@ -100,6 +100,50 @@ def chunks(lst, n):
         yield lst[i:i + n]
 
 #########################
-	
+'''
+Infinitely loop throuht a list
+'''
+import itertools
+psgr = ['░','▒','▓', '█']
+for element in itertools.cycle(psgr):
+    print(element)
+
+#########################
+'''
+Threading?..
+'''
 
 
+import time
+from pathlib import Path
+import threading
+import os
+try:
+	os.remove('/content/_.temp')
+except:
+	pass
+
+my_file = Path("/content/_.temp")
+
+
+def func1():
+  counter = 0
+  while not my_file.exists():
+    time.sleep(1)
+    print('Yet to No, ' + str(counter))
+    counter += 1
+  with open('temp2.txt', 'w') as file:
+    file.write('Yet to No, ' + str(counter))  
+
+def func2():
+  for _ in range(10):
+    time.sleep(1)
+    print('This is ' + str(_))
+  with open(my_file, 'w') as file:
+    file.write('This is ' + str(_))
+
+t1 = threading.Thread(target=func1)
+t1.start()
+t2 = threading.Thread(target=func2)
+t2.start()
+t2.join()
