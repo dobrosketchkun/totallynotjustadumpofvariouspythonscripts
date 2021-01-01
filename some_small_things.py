@@ -147,3 +147,34 @@ t1.start()
 t2 = threading.Thread(target=func2)
 t2.start()
 t2.join()
+
+
+#########################
+'''
+To OHLC from binance tick data
+'''
+
+def ohlc_resample(dataf, length='1s'):
+    dataf.index = pd.to_datetime(dataf.index, unit='ms')
+    dataf.Price = pd.to_numeric(dataf.Price)
+    dataf.Quantity = pd.to_numeric(dataf.Quantity)
+    ticks = dataf[['Price', 'Quantity']]
+    bars = ticks.Price.resample(length).ohlc()
+    volumes = ticks.Quantity.resample(length).sum()
+    result = pd.concat([bars, volumes], axis=1)
+    result['volume'] = result['Quantity'] 
+    result = result.drop(['Quantity'], axis=1)
+    return result
+
+#########################
+'''
+Resamle OHLC
+'''
+
+datadf = datadf.resample('1min', label='left').agg({
+                                    'open': 'first',
+                                    'high': 'max',
+                                    'low': 'min',
+                                    'close': 'last',
+                                    'volume': 'sum'
+                                    })
