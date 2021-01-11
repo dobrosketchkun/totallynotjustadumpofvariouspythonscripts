@@ -43,7 +43,19 @@ for id in ids:
   os.system('gdown --id ' + id)
 
 #####################
-
+'''
+Display multiple images.
+'''
 from IPython.display import Image, display
 display(Image('a.png', width=300))
 display(Image('b.png', height=300))
+
+#####################
+'''
+inline plot 
+'''
+
+%matplotlib inline
+from pylab import rcParams
+import matplotlib.pyplot as plt
+rcParams['figure.figsize'] = 20 , 10
