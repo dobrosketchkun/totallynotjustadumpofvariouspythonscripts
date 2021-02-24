@@ -1,0 +1,16 @@
+function testo() {
+  var sheet = SpreadsheetApp.getActiveSheet();
+
+  var new_ver = UrlFetchApp.fetch('https://raw.githubusercontent.com/dobrosketchkun/totallynotjustadumpofvariouspythonscripts/main/random_files/version.txt').getContentText();
+  new_ver = parseInt(new_ver, 10);
+
+  //var someval = sheet.getRange("I5").setValue(new_ver);
+  var current_ver = sheet.getRange("N2").getValue(); 
+  current_ver = parseInt(current_ver, 10);
+  if (current_ver >= new_ver) {
+    result = 'Good';
+  } else {
+    result = 'Update it';
+  }
+  console.log(result, current_ver, new_ver);
+}
