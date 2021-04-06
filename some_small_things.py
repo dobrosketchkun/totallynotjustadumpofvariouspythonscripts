@@ -178,3 +178,26 @@ datadf = datadf.resample('1min', label='left').agg({
                                     'close': 'last',
                                     'volume': 'sum'
                                     })
+
+
+
+
+#########################
+'''
+Images to video with imageio
+'''
+
+
+import os
+from pathlib import Path
+import imageio
+
+dir_path = './path/'
+
+image_folder = sorted(Path(dir_path).iterdir(), key=os.path.getmtime)
+
+writer = imageio.get_writer('video.mp4', fps=20)
+
+for im in image_folder:
+    writer.append_data(imageio.imread(im))
+writer.close()
