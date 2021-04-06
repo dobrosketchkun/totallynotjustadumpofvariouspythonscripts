@@ -59,3 +59,9 @@ inline plot
 from pylab import rcParams
 import matplotlib.pyplot as plt
 rcParams['figure.figsize'] = 20 , 10
+
+#####################
+'''
+Autorun form
+'''
+#@title Attribute. { run: "auto" }
