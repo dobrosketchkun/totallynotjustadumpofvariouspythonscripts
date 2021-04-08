@@ -27,3 +27,7 @@ ffmpeg -i frames/out-%03d.jpg -c:v libx264 -vf fps=29.97 -pix_fmt yuv420p output
 
 # lighter video
 ffmpeg -i input.mp4 -c:v libx264 -crf 18 -preset veryslow -c:a copy output.mp4
+
+# loop video through audio
+
+ffmpeg  -stream_loop -1 -i input.mp4 -i input.mp3 -shortest -map 0:v:0 -map 1:a:0 -y output.mp4
