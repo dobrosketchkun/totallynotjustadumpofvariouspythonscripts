@@ -65,3 +65,12 @@ rcParams['figure.figsize'] = 20 , 10
 Autorun form
 '''
 #@title Attribute. { run: "auto" }
+
+
+#####################
+'''
+Dowload file
+'''
+
+from google.colab import files
+files.download('file.txt') 
