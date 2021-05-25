@@ -32,6 +32,6 @@ ffmpeg -i input.mp4 -c:v libx264 -crf 18 -preset veryslow -c:a copy output.mp4
 ffmpeg  -stream_loop -1 -i input.mp4 -i input.mp3 -shortest -map 0:v:0 -map 1:a:0 -y output.mp4
 
 # cut video for telegram
-ffmpeg -i "input.mp4" -vf format=yuv420p -preset veryslow output.mp4  -ss 00:00:00 -to 00:00:01 -y
+ffmpeg -ss 00:00:00 -to 00:00:01 -i "input.mp4" -vf format=yuv420p -preset veryslow output.mp4 -y
 
 
