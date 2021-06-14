@@ -34,4 +34,8 @@ ffmpeg  -stream_loop -1 -i input.mp4 -i input.mp3 -shortest -map 0:v:0 -map 1:a:
 # cut video for telegram
 ffmpeg -ss 00:00:00 -to 00:00:01 -i "input.mp4" -vf format=yuv420p -preset veryslow output.mp4 -y
 
+# cut video for telegram with hardsubs
 
+ffmpeg -ss 00:00:00 -to 00:00:01 -copyts -i "input.mkv"  -vf "format=yuv420p,subtitles='input.mkv'" -ss 00:00:00 -preset veryslow gag.mp4 -y
+
+ffmpeg --ss 00:00:00 -to 00:00:01 -copyts -i "input.mkv"   -filter_complex "ass='input.ass'" -ss 00:00:00 -preset veryslow gag2.mp4 -y
