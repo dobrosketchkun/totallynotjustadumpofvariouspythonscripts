@@ -40,3 +40,9 @@ ffmpeg --ss 00:00:00 -to 00:00:01 -copyts -i "input.mkv"   -filter_complex "ass=
 
 # make a "gif" for telegram
 ffmpeg -i input.mp4 -flags +global_header -movflags faststart -c:v libx264 -profile:v high -bf 0 -copyts -avoid_negative_ts disabled -correct_ts_overflow 0 -pix_fmt yuv420p -color_primaries bt709 -color_trc iec61966_2_1 -colorspace bt470bg -color_range tv -video_track_timescale 24000/1 -vsync passthrough -qp 18 -preset veryslow -lavfi scale=if(gt(iw\,ih)\,min(448\,floor((iw+1)/2)*2)\,-2):if(gt(iw\,ih)\,-2\,min(448\,floor((ih+1)/2)*2)):out_color_matrix=bt601:out_range=tv:flags=accurate_rnd+full_chroma_inp+full_chroma_int+bicublin -an output.mp4
+
+# concatenate multiple files
+ffmpeg -i "concat:audio1.mp3|audio2.mp3|audio3.mp3" output.mp3
+
+# split a file into segments of some length (in seconds)
+ffmpeg -i input.mp3 -f segment -segment_time 60 -c copy output_%03d.mp3
