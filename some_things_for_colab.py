@@ -74,3 +74,12 @@ Dowload file
 
 from google.colab import files
 files.download('file.txt') 
+
+#####################
+'''
+Restart a runtime in the code
+'''
+
+#@title ← Press this button to restart runtime. Ignore the <i>session crashed</i> message and run the next cell 
+import os
+os.kill(os.getpid(), 9)
