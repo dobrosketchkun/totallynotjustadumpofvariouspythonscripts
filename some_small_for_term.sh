@@ -46,3 +46,11 @@ ffmpeg -i "concat:audio1.mp3|audio2.mp3|audio3.mp3" output.mp3
 
 # split a file into segments of some length (in seconds)
 ffmpeg -i input.mp3 -f segment -segment_time 60 -c copy output_%03d.mp3
+
+# do.bat batch processing for win
+
+for %%a in (*.wav) do (
+  echo processing %%a
+  REM your ffmpeg command; Input file will be: %%a
+  REM If you need some output file name: %%~na.mp3
+)
