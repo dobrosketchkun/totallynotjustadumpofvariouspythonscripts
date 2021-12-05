@@ -5,7 +5,8 @@ ls /some/folder/ | wc -l
 ##################################
 
 
-
+#yt-dlp 1080p video
+yt-dlp -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]"  ID
 
 
 
