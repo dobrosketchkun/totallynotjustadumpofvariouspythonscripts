@@ -4,11 +4,11 @@ ls /some/folder/ | wc -l
 
 ##################################
 
-
 #yt-dlp 1080p video
 yt-dlp -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]"  ID
 
-
+#yt-dlp 1080p video from ss to time
+yt-dlp -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]" --external-downloader ffmpeg --external-dowloader-args "ffmpeg_i:-ss 00:01:00 -to 00:01:10" ID
 
 #####################
 # ffmpeg section    #
@@ -17,8 +17,8 @@ yt-dlp -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]"  ID
 # adding silent audio
 ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -i input.mp4 -c:v copy -c:a aac -shortest output.mp4
 
-# cut from ss to t
-ffmpeg -i input.mp4 -ss 00:00:06 -t 00:00:26 cut.mp4
+# cut from ss to time
+ffmpeg -i input.mp4 -ss 00:00:06 -to 00:00:26 cut.mp4
 
 # video to frames
 ffmpeg -i input.mp4 frames/out-%03d.jpg
