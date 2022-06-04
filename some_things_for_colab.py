@@ -83,3 +83,20 @@ Restart a runtime in the code
 #@title ← Press this button to restart runtime. Ignore the <i>session crashed</i> message and run the next cell 
 import os
 os.kill(os.getpid(), 9)
+
+
+#####################
+'''
+Allow text wrapping in generated output: https://stackoverflow.com/a/61401455
+'''
+from IPython.display import HTML, display
+
+def set_css():
+  display(HTML('''
+  <style>
+    pre {
+        white-space: pre-wrap;
+    }
+  </style>
+  '''))
+get_ipython().events.register('pre_run_cell', set_css)
