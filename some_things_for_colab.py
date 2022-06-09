@@ -100,3 +100,11 @@ def set_css():
   </style>
   '''))
 get_ipython().events.register('pre_run_cell', set_css)
+
+
+#####################
+'''
+Tesla P100-PCIE-16GB, 16280 MiB, 16280 MiB
+'''
+
+!nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv,noheader
