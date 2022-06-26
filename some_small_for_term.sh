@@ -10,6 +10,9 @@ yt-dlp -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]"  ID
 #yt-dlp 1080p video from ss to time
 yt-dlp -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]" --external-downloader ffmpeg --external-dowloader-args "ffmpeg_i:-ss 00:01:00 -to 00:01:10" ID
 
+#yt-dlp download best audio/video in mp4 
+yt-dlp -f "bestvideo+bestaudio[ext=m4a]/bestvideo+bestaudio/best" --merge-output-format mp4 ID -o output.mp4
+
 #####################
 # ffmpeg section    #
 #####################
