@@ -108,3 +108,15 @@ Tesla P100-PCIE-16GB, 16280 MiB, 16280 MiB
 '''
 
 !nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv,noheader
+
+#####################
+'''
+Frees GPU Memory
+'''
+
+# https://www.kaggle.com/getting-started/140636
+from numba import cuda
+def free_gpu_memory():
+    cuda.select_device(0)
+    cuda.close()
+    cuda.select_device(0)
