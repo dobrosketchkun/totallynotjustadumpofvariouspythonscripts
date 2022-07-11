@@ -111,7 +111,7 @@ Tesla P100-PCIE-16GB, 16280 MiB, 16280 MiB
 
 #####################
 '''
-Frees GPU Memory
+Frees GPU Memory, but it's very hacky, so
 '''
 
 # https://www.kaggle.com/getting-started/140636
@@ -120,3 +120,19 @@ def free_gpu_memory():
     cuda.select_device(0)
     cuda.close()
     cuda.select_device(0)
+
+#####################
+'''
+Conditional tqdm
+'''
+
+from tqdm import tqdm
+
+def tqdm_vervose(itterator, conditional):
+    if not conditional:
+        return itterator
+    else:
+        return tqdm(itterator)
+ 
+for _ in tqdm_vervose(itterator=[1,2,3,4,5], conditional=True):
+      do_something(_)
