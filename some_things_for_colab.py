@@ -136,3 +136,21 @@ def tqdm_vervose(itterator, conditional):
  
 for _ in tqdm_vervose(itterator=[1,2,3,4,5], conditional=True):
       do_something(_)
+
+#####################
+'''
+Line wrap hack for google colab 
+'''
+
+from IPython.display import HTML, display
+
+def set_css():
+  display(HTML('''
+  <style>
+    pre {
+        white-space: pre-wrap;
+    }
+  </style>
+  '''))
+get_ipython().events.register('pre_run_cell', set_css)
+      
