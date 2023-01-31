@@ -58,3 +58,6 @@ for %%a in (*.wav) do (
   REM your ffmpeg command; Input file will be: %%a
   REM If you need some output file name: %%~na.mp3
 )
+
+# add album cover art to mp3 file
+ffmpeg -i input.mp3 -i test.png -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" output.mp3 -y
