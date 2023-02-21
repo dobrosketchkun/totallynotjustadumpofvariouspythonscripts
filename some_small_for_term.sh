@@ -62,4 +62,8 @@ for %%a in (*.wav) do (
 ## https://jmesb.com/how_to/create_id3_tags_using_ffmpeg
 ffmpeg -i input.mp3 -i test.png -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" output.mp3 -y   
 
-ffmpeg -i input.mp3 -i test.png -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" -metadata album_artist="ALBUM ARTIST" -metadata title="SONG TITLE" output.mp3 -y
+ffmpeg -i input.mp3 -i test.png -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" -metadata album_artist="ALBUM ARTIST" -metadata title="SONG TITLE" output.mp3 -y    
+
+
+
+
