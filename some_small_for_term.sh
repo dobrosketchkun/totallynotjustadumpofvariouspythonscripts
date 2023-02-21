@@ -52,7 +52,6 @@ ffmpeg -i "concat:audio1.mp3|audio2.mp3|audio3.mp3" output.mp3
 ffmpeg -i input.mp3 -f segment -segment_time 60 -c copy output_%03d.mp3
 
 # do.bat batch processing for win
-
 for %%a in (*.wav) do (
   echo processing %%a
   REM your ffmpeg command; Input file will be: %%a
@@ -60,4 +59,7 @@ for %%a in (*.wav) do (
 )
 
 # add album cover art to mp3 file
-ffmpeg -i input.mp3 -i test.png -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" output.mp3 -y
+## https://jmesb.com/how_to/create_id3_tags_using_ffmpeg
+ffmpeg -i input.mp3 -i test.png -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" output.mp3 -y   
+
+ffmpeg -i input.mp3 -i test.png -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" -metadata album_artist="ALBUM ARTIST" -metadata title="SONG TITLE" output.mp3 -y
