@@ -137,4 +137,12 @@ def tqdm_vervose(itterator, conditional):
 for _ in tqdm_vervose(itterator=[1,2,3,4,5], conditional=True):
       do_something(_)
 
+#####################
+'''
+Make gdown work again
+'''
+
+!pip install --upgrade --no-cache-dir gdown
+
+#####################
 
