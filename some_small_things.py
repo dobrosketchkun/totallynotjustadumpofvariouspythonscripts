@@ -201,3 +201,19 @@ writer = imageio.get_writer('video.mp4', fps=20)
 for im in image_folder:
     writer.append_data(imageio.imread(im))
 writer.close()
+
+#########################
+'''
+Gets image size withou fully downloading an image
+'''
+
+def get_image_size(url):
+    resume_header = {'Range': 'bytes=0-2000000'}  
+    data = requests.get(url, stream = True, headers = headers).content
+
+    p = ImageFile.Parser()
+    p.feed(data)    
+    if p.image:
+        return p.image.size
+
+#########################
