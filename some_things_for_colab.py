@@ -139,10 +139,24 @@ for _ in tqdm_vervose(itterator=[1,2,3,4,5], conditional=True):
 
 #####################
 '''
-Make gdown work again
+Makes gdown work again
 '''
 
 !pip install --upgrade --no-cache-dir gdown
 
 #####################
+'''
+Generates 24h silence audio file to play to force colab not to stop working
+'''
+#@title 1. Keep this tab alive to prevent Colab from disconnecting you { display-mode: "form" }
+
+#@markdown Press play on the music player that will appear below:
+from IPython.display import Audio, display,clear_output
+
+!ffmpeg -f lavfi -i anullsrc=r=11025:cl=mono -t 86400 -acodec aac 24hsil.m4a -y
+clear_output()
+display(Audio('/content/24hsil.m4a'))
+
+#####################
+
 
