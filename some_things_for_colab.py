@@ -15,6 +15,36 @@ HTML("""
 
 ####################
 '''
+Shows a video in colab as a loop
+'''
+
+from IPython.display import HTML
+from base64 import b64encode
+
+video_path = '/path/to/your/video.mp4'
+
+video_file = open(video_path, 'rb').read()
+video_base64 = b64encode(video_file).decode()
+data_url = "data:video/mp4;base64," + video_base64
+html_code = """
+<video width=400 controls autoplay>
+    <source src="%s" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<script>
+  var video = document.querySelector('video');
+  video.addEventListener('ended', function () {
+      video.currentTime = 0;
+      video.play();
+  });
+</script>
+""" % data_url
+
+HTML(html_code)
+
+####################
+'''
 Connect gdrive to clab
 '''
 
