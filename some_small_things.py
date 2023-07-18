@@ -217,3 +217,21 @@ def get_image_size(url):
         return p.image.size
 
 #########################
+'''
+The number is: 36:  36%|████████████████████▌                                    | 36/100 [00:03<00:06,  9.26numbers/s]
+'''
+
+from tqdm import tqdm
+from time import sleep
+
+numbers = list(range(1, 101))
+with tqdm(total=len(numbers), unit="numbers") as pbar:
+    for number in numbers:
+        try:
+            pbar.set_description(f"The number is: {number}")
+            pbar.update(1)
+            sleep(0.1)  # Add a small delay to visualize the progress
+        except Exception as e:
+            print('An error occurred:', str(e))
+
+#########################
