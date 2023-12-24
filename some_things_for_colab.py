@@ -188,5 +188,10 @@ clear_output()
 display(Audio('/content/24hsil.m4a'))
 
 #####################
+'''
+Once you have loaded it, any cell run after this will give you the execution time of the cell.
+'''
 
+%load_ext autotime
+# %unload_ext autotime # to unload
 
