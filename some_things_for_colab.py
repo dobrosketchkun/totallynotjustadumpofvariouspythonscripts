@@ -195,3 +195,29 @@ Once you have loaded it, any cell run after this will give you the execution tim
 %load_ext autotime
 # %unload_ext autotime # to unload
 
+#####################
+'''
+Download a file with a progress line
+'''
+
+def download_file(url, folder_path, file_name=None):
+    """Download a file from a given URL to a specified folder with an optional file name."""
+    local_filename = file_name if file_name else url.split('/')[-1]
+    local_filepath = os.path.join(folder_path, local_filename)
+
+    # Stream download to handle large files
+    with requests.get(url, stream=True) as r:
+        r.raise_for_status()
+        total_size_in_bytes = int(r.headers.get('content-length', 0))
+        block_size = 1024 # 1 Kibibyte
+        progress_bar = tqdm(total=total_size_in_bytes, unit='iB', unit_scale=True)
+        with open(local_filepath, 'wb') as f:
+            for data in r.iter_content(block_size):
+                progress_bar.update(len(data))
+                f.write(data)
+        progress_bar.close()
+
+    if total_size_in_bytes != 0 and progress_bar.n != total_size_in_bytes:
+        print("ERROR, something went wrong")
+    else:
+        print(f"Downloaded {local_filename} to {folder_path}")
