@@ -221,3 +221,57 @@ def download_file(url, folder_path, file_name=None):
         print("ERROR, something went wrong")
     else:
         print(f"Downloaded {local_filename} to {folder_path}")
+
+#####################
+'''
+Prepares a single grid of images
+'''
+
+from typing import List
+from PIL import Image
+
+def make_image_grid(images: List[PIL.Image.Image], rows: int, cols: int, max_size: int = None) -> PIL.Image.Image:
+    """
+    Prepares a single grid of images. Useful for visualization purposes.
+    
+    :param images: A list of PIL Images to be arranged in a grid.
+    :param rows: Number of rows in the grid.
+    :param cols: Number of columns in the grid.
+    :param max_size: The maximum size (width) for resizing the images. Both dimensions will be adjusted to maintain aspect ratios. If None, images are kept at their original sizes.
+    :return: A single PIL Image representing the grid of resized images.
+    """
+    #####################
+    def _create_grid_from_images(images: List[PIL.Image.Image], rows: int, cols: int) -> PIL.Image.Image:
+        """
+        Helper function to create a grid from a list of images.
+        """
+        w, h = images[0].size
+        grid = Image.new("RGB", size=(cols * w, rows * h))
+
+        for i, img in enumerate(images):
+            grid.paste(img, box=(i % cols * w, i // cols * h))
+        return grid
+    #####################
+    
+    assert len(images) == rows * cols
+
+    # If max_size is None, skip resizing and proceed with the original images
+    if max_size is None:
+        return _create_grid_from_images(images, rows, cols)
+
+    # Determine the maximum width among all images
+    max_width = max(img.width for img in images)
+
+    # Calculate the scaling factor based on the maximum width
+    scale_factor = max_size / max_width
+
+    # Resize each image
+    resized_images = []
+    for img in images:
+        width, height = img.size
+        new_width = round(width * scale_factor)
+        new_height = round(height * scale_factor)
+        resized_img = img.resize((new_width, new_height), Image.ANTIALIAS)
+        resized_images.append(resized_img)
+
+    return _create_grid_from_images(resized_images, rows, cols)
