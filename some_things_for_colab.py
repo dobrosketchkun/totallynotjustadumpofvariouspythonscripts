@@ -228,7 +228,9 @@ Prepares a single grid of images
 '''
 
 from typing import List
+from typing import List
 from PIL import Image
+import PIL
 
 def make_image_grid(images: List[PIL.Image.Image], rows: int, cols: int, max_size: int = None) -> PIL.Image.Image:
     """
@@ -271,7 +273,8 @@ def make_image_grid(images: List[PIL.Image.Image], rows: int, cols: int, max_siz
         width, height = img.size
         new_width = round(width * scale_factor)
         new_height = round(height * scale_factor)
-        resized_img = img.resize((new_width, new_height), Image.ANTIALIAS)
+        resized_img = img.resize((new_width, new_height), Image.LANCZOS)
         resized_images.append(resized_img)
 
     return _create_grid_from_images(resized_images, rows, cols)
+
