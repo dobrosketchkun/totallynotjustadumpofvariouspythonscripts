@@ -278,3 +278,12 @@ def make_image_grid(images: List[PIL.Image.Image], rows: int, cols: int, max_siz
 
     return _create_grid_from_images(resized_images, rows, cols)
 
+
+#####################
+'''
+Detects if the code is in the colab cell or not
+'''
+
+import sys 
+def in_colab():
+    return "google.colab" in sys.modules
