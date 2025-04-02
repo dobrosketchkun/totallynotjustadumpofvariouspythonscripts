@@ -1,4 +1,4 @@
-# Count Files in Directory on Linux
+# Count Files in a Directory on Linux
 
 ls /some/folder/ | wc -l
 
@@ -12,6 +12,9 @@ yt-dlp -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]" --external-down
 
 #yt-dlp download best audio/video in mp4 
 yt-dlp -f "bestvideo+bestaudio[ext=m4a]/bestvideo+bestaudio/best" --merge-output-format mp4 ID -o output.mp4
+
+#yt-dlp download only the time interval
+yt-dlp --download-sections "*00:00:00-00:00:10" https://www.youtube.com/watch?v=ID
 
 #####################
 # ffmpeg section    #
