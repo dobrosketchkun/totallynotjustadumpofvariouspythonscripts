@@ -1,0 +1,2 @@
+- When using Context7, make sure that you keep range of output in the range of 2k to 10k based on what you think is the best
+- Maintain a file named library.md to store Library IDs that you search for and before searching make sure that you chack the file and use the library ID already available. Otherwise search for it.
