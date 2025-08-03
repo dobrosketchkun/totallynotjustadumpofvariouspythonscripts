@@ -1,0 +1,8 @@
+{
+  "FormattingOptions": {
+    "NewLinesForBracesInMethods": false,
+    "NewLineForElse": false,
+    "NewLineForCatch": false,
+    "NewLineForFinally": false
+  }
+}
