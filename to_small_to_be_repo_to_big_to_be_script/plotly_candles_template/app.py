@@ -6,12 +6,17 @@ This is a minimal template for creating interactive candlestick charts with Plot
 It includes several quality-of-life features for better chart interaction.
 
 QUALITY OF LIFE FEATURES:
-- Shift+Scroll: Y-axis zoom on any subplot
+- Shift+Scroll: Y-axis zoom on any chart independently
 - Shift+Alt+Scroll: Fast Y-axis zoom
 - Alt+Click: Auto-fit Y-axis to visible data
-- Drag borders: Resize subplots (if you add multiple)
+- Resizable charts: Drag bottom-right corner to resize (like textarea)
 - Double-click: Reset zoom
 - View state persistence: Zoom/pan preserved on updates
+
+LAYOUT:
+- Two separate chart containers (main chart + secondary chart)
+- Each chart can be resized independently by dragging the corner
+- Charts can expand beyond initial window size
 
 CUSTOMIZATION:
 Replace the sample_data.load_data() function with your own data source.
@@ -50,6 +55,31 @@ app.index_string = '''
                 padding: 0;
                 background-color: #0e1117;
             }
+            
+            /* Resizable graph containers */
+            .resizable-graph-container {
+                resize: vertical;
+                overflow: hidden;  /* No scrollbars */
+                border: 2px solid #495057;
+                border-radius: 4px;
+                padding: 0;
+                background-color: #1a1d24;
+                margin-bottom: 15px;
+                min-height: 100px;
+                max-height: none;
+                position: relative;
+            }
+            
+            .resizable-graph-container:hover {
+                border-color: #6c757d;
+            }
+            
+            /* Make sure loading and graph containers fill the resizable container */
+            .resizable-graph-container > div,
+            .resizable-graph-container .dash-graph {
+                height: 100%;
+                width: 100%;
+            }
         </style>
     </head>
     <body>
@@ -61,27 +91,31 @@ app.index_string = '''
         </footer>
         <script>
             // ============================================================
-            // SHIFT + SCROLL FOR Y-AXIS ZOOM
+            // SHIFT + SCROLL FOR Y-AXIS ZOOM (works on both charts)
             // ============================================================
             if (typeof window.addShiftScrollZoom === 'undefined') {
                 window.addShiftScrollZoom = function() {
                     console.log('🔧 Setting up Shift+Scroll Y-axis zoom...');
                     
-                    const graphContainer = document.getElementById('main-chart');
-                    if (!graphContainer) {
-                        console.error('❌ Graph container #main-chart not found');
-                        return;
-                    }
+                    // Apply to all graph containers
+                    const chartIds = ['main-chart', 'secondary-chart'];
                     
-                    const plotlyDiv = graphContainer.querySelector('.js-plotly-plot') || graphContainer;
-                    
-                    if (!plotlyDiv) {
-                        console.error('❌ Plotly div not found inside container');
-                        return;
-                    }
-                    
-                    // Add wheel event listener for Shift+Scroll
-                    plotlyDiv.addEventListener('wheel', function(e) {
+                    chartIds.forEach(chartId => {
+                        const graphContainer = document.getElementById(chartId);
+                        if (!graphContainer) {
+                            console.warn(`⚠️ Graph container #${chartId} not found`);
+                            return;
+                        }
+                        
+                        const plotlyDiv = graphContainer.querySelector('.js-plotly-plot') || graphContainer;
+                        
+                        if (!plotlyDiv) {
+                            console.error(`❌ Plotly div not found inside ${chartId}`);
+                            return;
+                        }
+                        
+                        // Add wheel event listener for Shift+Scroll
+                        plotlyDiv.addEventListener('wheel', function(e) {
                         if (e.shiftKey) {
                             e.preventDefault();
                             e.stopPropagation();
@@ -151,9 +185,10 @@ app.index_string = '''
                                 console.error('❌ Relayout error:', err);
                             });
                         }
-                    }, { passive: false });
-                    
-                    console.log('✅ Shift+Scroll Y-axis zoom ENABLED');
+                        }, { passive: false });
+                        
+                        console.log(`✅ Shift+Scroll Y-axis zoom ENABLED on ${chartId}`);
+                    }); // End forEach
                 };
                 
                 // Attach after page loads
@@ -173,19 +208,23 @@ app.index_string = '''
             }
             
             // ============================================================
-            // ALT + CLICK TO AUTO-FIT Y-AXIS
+            // ALT + CLICK TO AUTO-FIT Y-AXIS (works on both charts)
             // ============================================================
             if (typeof window.addAltClickAutoFit === 'undefined') {
                 window.addAltClickAutoFit = function() {
                     console.log('🔧 Setting up Alt+Click auto-fit...');
                     
-                    const graphContainer = document.getElementById('main-chart');
-                    if (!graphContainer) {
-                        console.error('❌ Graph container #main-chart not found');
-                        return;
-                    }
+                    // Apply to all graph containers
+                    const chartIds = ['main-chart', 'secondary-chart'];
                     
-                    const plotlyDiv = graphContainer.querySelector('.js-plotly-plot') || graphContainer;
+                    chartIds.forEach(chartId => {
+                        const graphContainer = document.getElementById(chartId);
+                        if (!graphContainer) {
+                            console.warn(`⚠️ Graph container #${chartId} not found`);
+                            return;
+                        }
+                        
+                        const plotlyDiv = graphContainer.querySelector('.js-plotly-plot') || graphContainer;
                     
                     // Use Plotly's plotly_click event which captures modifier keys
                     plotlyDiv.on('plotly_click', function(data) {
@@ -314,9 +353,10 @@ app.index_string = '''
                                 });
                             }
                         }
-                    });
-                    
-                    console.log('✅ Alt+Click auto-fit ENABLED');
+                        });
+                        
+                        console.log(`✅ Alt+Click auto-fit ENABLED on ${chartId}`);
+                    }); // End forEach
                 };
                 
                 // Attach Alt+Click handler
@@ -472,6 +512,66 @@ app.index_string = '''
                     }
                 }, 2000);
             }
+            
+            // ============================================================
+            // AUTO-RESIZE PLOTLY GRAPHS WHEN CONTAINER IS RESIZED
+            // ============================================================
+            if (typeof window.setupGraphResizing === 'undefined') {
+                window.setupGraphResizing = function() {
+                    console.log('🔧 Setting up graph auto-resizing...');
+                    
+                    // Map of container IDs to their graph IDs
+                    const containers = document.querySelectorAll('.resizable-graph-container');
+                    
+                    containers.forEach(container => {
+                        // Find the graph element inside this container
+                        const graphDiv = container.querySelector('.js-plotly-plot');
+                        
+                        if (!graphDiv) {
+                            console.warn('⚠️ No graph found in resizable container');
+                            return;
+                        }
+                        
+                        // Use ResizeObserver to watch for container size changes
+                        const resizeObserver = new ResizeObserver(entries => {
+                            for (let entry of entries) {
+                                // Get the new height of the container
+                                const newHeight = entry.contentRect.height;
+                                
+                                if (newHeight > 0 && graphDiv.layout) {
+                                    console.log(`📏 Container resized to ${newHeight}px, updating graph...`);
+                                    
+                                    // Update the Plotly graph to match the container height
+                                    Plotly.relayout(graphDiv, {
+                                        height: newHeight
+                                    }).catch(err => {
+                                        console.error('❌ Error resizing graph:', err);
+                                    });
+                                }
+                            }
+                        });
+                        
+                        // Start observing the container
+                        resizeObserver.observe(container);
+                        console.log('✅ Resize observer attached to container');
+                    });
+                };
+                
+                // Attach resize observers after graphs load
+                if (document.readyState === 'complete') {
+                    setTimeout(window.setupGraphResizing, 1000);
+                } else {
+                    window.addEventListener('load', function() {
+                        setTimeout(window.setupGraphResizing, 1000);
+                    });
+                }
+                
+                setTimeout(function() {
+                    if (document.querySelectorAll('.resizable-graph-container').length > 0) {
+                        window.setupGraphResizing();
+                    }
+                }, 2500);
+            }
         </script>
     </body>
 </html>
@@ -546,9 +646,21 @@ def create_figure(df, view_state=None):
     return fig
 
 
-# Generate initial figure for the layout
+# Generate initial figures for the layout
 _initial_df = load_data()
 _initial_figure = create_figure(_initial_df)
+
+# Create second figure (you can customize this with different data/indicators)
+_initial_figure_2 = create_figure(_initial_df)
+_initial_figure_2.update_layout(
+    height=config.CHART_HEIGHT_SECONDARY,
+    title={
+        "text": "Secondary Chart | Shift+Scroll: Y-Zoom | Alt+Click: Fit",
+        "x": 0.5,
+        "xanchor": "center",
+        "font": {"size": 14, "color": config.COLORS["text"]}
+    }
+)
 
 
 # App Layout
@@ -561,23 +673,47 @@ app.layout = dbc.Container([
     
     dbc.Row([
         dbc.Col([
-            dcc.Loading(
-                id="loading",
-                type="default",
-                children=[
-                    dcc.Graph(
-                        id="main-chart",
-                        figure=_initial_figure,
-                        config={
-                            "displayModeBar": True,
-                            "displaylogo": False,
-                            "modeBarButtonsToRemove": ["lasso2d", "select2d"],
-                            "scrollZoom": False,  # Disabled - using Shift+Scroll instead
-                        },
-                        style={"height": f"{config.CHART_HEIGHT}px"}
-                    )
-                ]
-            ),
+            # Main chart - resizable
+            html.Div([
+                dcc.Loading(
+                    id="loading",
+                    type="default",
+                    children=[
+                        dcc.Graph(
+                            id="main-chart",
+                            figure=_initial_figure,
+                            config={
+                                "displayModeBar": True,
+                                "displaylogo": False,
+                                "modeBarButtonsToRemove": ["lasso2d", "select2d"],
+                                "scrollZoom": False,  # Disabled - using Shift+Scroll instead
+                            },
+                            style={"height": "100%", "width": "100%"}
+                        )
+                    ]
+                ),
+            ], className="resizable-graph-container", style={"height": f"{config.CHART_HEIGHT}px"}),
+            
+            # Secondary chart - resizable
+            html.Div([
+                dcc.Loading(
+                    id="loading-2",
+                    type="default",
+                    children=[
+                        dcc.Graph(
+                            id="secondary-chart",
+                            figure=_initial_figure_2,
+                            config={
+                                "displayModeBar": True,
+                                "displaylogo": False,
+                                "modeBarButtonsToRemove": ["lasso2d", "select2d"],
+                                "scrollZoom": False,
+                            },
+                            style={"height": "100%", "width": "100%"}
+                        )
+                    ]
+                ),
+            ], className="resizable-graph-container", style={"height": f"{config.CHART_HEIGHT_SECONDARY}px"}),
         ], width=10),
         
         # Right sidebar - Controls
@@ -590,6 +726,7 @@ app.layout = dbc.Container([
                         html.Li("Shift+Scroll: Y-zoom"),
                         html.Li("Shift+Alt+Scroll: Fast Y-zoom"),
                         html.Li("Alt+Click: Auto-fit Y"),
+                        html.Li("Drag corner: Resize chart"),
                         html.Li("Double-click: Reset"),
                         html.Li("Drag: Pan"),
                     ], style={"fontSize": "0.85rem"}),
@@ -639,14 +776,31 @@ def store_view_state(relayout_data, current_state):
 
 
 @app.callback(
-    Output("main-chart", "figure"),
+    [Output("main-chart", "figure"),
+     Output("secondary-chart", "figure")],
     Input("refresh-button", "n_clicks"),
     State("chart-view-state", "data"),
 )
-def update_chart(n_clicks, view_state):
-    """Create and update the candlestick chart."""
+def update_charts(n_clicks, view_state):
+    """Create and update both candlestick charts."""
     df = load_data()
-    return create_figure(df, view_state)
+    
+    # Main chart
+    fig_main = create_figure(df, view_state)
+    
+    # Secondary chart (smaller)
+    fig_secondary = create_figure(df, view_state)
+    fig_secondary.update_layout(
+        height=config.CHART_HEIGHT_SECONDARY,
+        title={
+            "text": "Secondary Chart | Shift+Scroll: Y-Zoom | Alt+Click: Fit",
+            "x": 0.5,
+            "xanchor": "center",
+            "font": {"size": 14, "color": config.COLORS["text"]}
+        }
+    )
+    
+    return fig_main, fig_secondary
 
 
 if __name__ == "__main__":

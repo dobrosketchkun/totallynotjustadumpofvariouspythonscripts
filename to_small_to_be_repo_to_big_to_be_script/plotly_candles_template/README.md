@@ -12,7 +12,7 @@ This template provides a **starting point** for AI assistants and developers to 
 
 1. **Shift + Scroll**: Y-axis zoom
    - Scroll up/down while holding Shift to zoom in/out on the Y-axis
-   - Works on any subplot independently
+   - Works on both charts independently
    - Zooms around the center of the current view
 
 2. **Shift + Alt + Scroll**: Fast Y-axis zoom
@@ -23,17 +23,21 @@ This template provides a **starting point** for AI assistants and developers to 
    - Alt+Click anywhere on the chart to automatically fit the Y-axis to the currently visible X-range
    - Particularly useful after zooming in on the X-axis
    - Ensures you see all the data in the visible time range
+   - Works on both charts
 
-4. **Drag borders**: Resize subplots
-   - If you add multiple subplots, you can drag the borders between them to resize
-   - Hover near a subplot border to see the resize cursor
+4. **Resize charts**: Drag the bottom-right corner
+   - Each chart container is resizable by dragging the bottom-right corner
+   - Similar to resizing a textarea in modern UIs
+   - **The chart automatically resizes to fill the container** - no scrollbars!
+   - Uses ResizeObserver API to detect container changes and update Plotly graph heights
+   - Allows making charts bigger or smaller than the default size
+   - Great for focusing on specific charts or adjusting to your screen size
 
 5. **Double-click**: Reset zoom
    - Standard Plotly double-click to reset to default view
 
 6. **View State Persistence**: 
    - Zoom and pan state is preserved when you update the data
-   - Subplot sizes are also preserved
 
 ### Visual Features
 
@@ -203,4 +207,16 @@ When using this template:
 - [Plotly Documentation](https://plotly.com/python/)
 - [Dash Documentation](https://dash.plotly.com/)
 - [Dash Bootstrap Components](https://dash-bootstrap-components.opensource.faculty.ai/)
+
+## 📄 License
+
+This is a template - use it however you want! No attribution required.
+
+## 🤝 Contributing
+
+This is a minimal template. If you add useful features, consider creating your own enhanced version!
+
+---
+
+**Happy Charting! 📈**
 

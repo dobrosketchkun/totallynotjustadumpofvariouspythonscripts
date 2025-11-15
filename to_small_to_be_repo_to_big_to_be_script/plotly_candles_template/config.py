@@ -8,6 +8,7 @@ PROJECT_ROOT = Path(__file__).parent
 
 # Chart settings
 CHART_HEIGHT = 800
+CHART_HEIGHT_SECONDARY = 80  # 10% of main chart height
 
 # Color scheme (modern dark theme)
 COLORS = {
