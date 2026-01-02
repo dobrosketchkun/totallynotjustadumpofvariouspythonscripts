@@ -394,8 +394,8 @@ blacklist:              # Always exclude these specific files
 # ----------
 # Control handling of large files
 
-max_file_size: 1048576  # Skip files larger than 1MB (1024*1024 bytes)
-# max_file_size: -1     # Use -1 for no size limit - include all files regardless of size
+# max_file_size: 1048576  # Skip files larger than 1MB (1024*1024 bytes)
+max_file_size: -1     # Use -1 for no size limit - include all files regardless of size
 """
     
     # Write YAML sample
