@@ -1,0 +1,8 @@
+{
+  "id": "dsk",
+  "name": "DSK",
+  "version": 1,
+  "stickers": [
+    {"id": "01", "file": "01.webp", "emoji": "😐"}
+  ]
+}
