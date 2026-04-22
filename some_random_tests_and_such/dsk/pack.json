@@ -3,6 +3,8 @@
   "name": "DSK",
   "version": 1,
   "stickers": [
-    {"id": "01", "file": "01.webp", "emoji": "😐"}
+    {"id": "01", "file": "01.webp", "emoji": "🐱"},
+    {"id": "02", "file": "02.webp", "emoji": "🐱"},
+    {"id": "03", "file": "03.webp", "emoji": "🐱"}
   ]
 }
